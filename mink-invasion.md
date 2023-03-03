@@ -22,22 +22,24 @@ and ferrets than the American mink. Therefore, their similar lifestyles
 are an example of [convergent
 evolution](https://en.wikipedia.org/wiki/Convergent_evolution).
 
-As well as the two mink, other species with similar ranges include the
-[red fox](https://en.wikipedia.org/wiki/Red_fox) and [European
-badger](https://en.wikipedia.org/wiki/European_badger). Despite their
-similar size and some overlap in food sources, these species have
-importantly different [ecological
-niches](https://en.wikipedia.org/wiki/Ecological_niche) to the mink,
-with both being omnivorous and terrestrial. We will include these
-species in the model to make it more realistic. It is possible to adjust
-the model below to take account of the difference in diet and behaviour
-which would mean that they interact less with the species of interest
-(**TODO:** incorporate this?).
+## [Lotka-Volterra competition model](https://en.wikipedia.org/wiki/Competitive_Lotka%E2%80%93Volterra_equations)
 
-## The model
+  
+![\\frac{\\textrm{d}x\_i}{\\textrm{d}t} = 
+r x\_i \\left( 1 - \\frac{x\_i + \\sum\_{j \\neq i} \\alpha\_{ij} x\_j
+}{K\_i}
+\\right)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7B%5Ctextrm%7Bd%7Dx_i%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20r%20x_i%20%5Cleft%28%201%20-%20%5Cfrac%7Bx_i%20%2B%20%5Csum_%7Bj%20%5Cneq%20i%7D%20%5Calpha_%7Bij%7D%20x_j%20%7D%7BK_i%7D%20%5Cright%29
+"\\frac{\\textrm{d}x_i}{\\textrm{d}t} = 
+        r x_i \\left( 1 - \\frac{x_i + \\sum_{j \\neq i} \\alpha_{ij} x_j }{K_i} \\right)")  
 
-This model is taken from [Catford et
-al. 2018](http://www.nature.com/articles/s41467-018-04491-3).
+## Escapes from farms
+
+The reason that the American mink was introduced to Europe is in order
+to [farm it for fur](https://en.wikipedia.org/wiki/Fur_farming), and and
+escaped mink from fur farms can bolster
+
+*This model is taken from [Catford et
+al. 2018](http://www.nature.com/articles/s41467-018-04491-3)*.
 
   
 ![\\frac{\\textrm{d}p\_i}{\\textrm{d}t} = 
@@ -49,8 +51,42 @@ p\_i](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&spa
         \\left( c_i p_i + h_i \\right) \\left( 1 - \\sum_{j = 1}^{i} p_j \\right) -
         \\left( m_i + \\sum_{j = 1}^{i-1} c_j p_j + h_j \\right) p_i")  
 
-We assume all species make *universal trade-offs* (see
-[Tilman 2011](https://www.journals.uchicago.edu/doi/10.1086/661245)).
+In this model, we will imagine that the area of interest is divided into
+territories that are occupied by a single member of one of the species.
+In the case of the mink, these territories are usually 1-6km of
+riverbank, but can also include ponds and coastal areas. We will model
+the proportion of the region that is occupied by each of these species.
+For example, if European mink occupies 90% of the available habitat,
+then the American mink will occupy 10%.
+
+The female American mink has four kits on average per year, and the
+European mink has a slightly larger litter of five kits. There is
+evidence that species around the world make *universal trade-offs* (see
+[Tilman 2011](https://www.journals.uchicago.edu/doi/10.1086/661245)),
+that is, for every
+
+## Extending the model
+
+As well as the two mink, other species with similar ranges include the
+[red fox](https://en.wikipedia.org/wiki/Red_fox) and [European
+badger](https://en.wikipedia.org/wiki/European_badger). Despite their
+similar size and some overlap in food sources, these species have
+importantly different [ecological
+niches](https://en.wikipedia.org/wiki/Ecological_niche) to the mink,
+with both being omnivorous and terrestrial. It is possible to include
+these species in the model, and also to adjust it to take account of the
+difference in diet and behaviour which would mean that they interact
+less with the species of interest (**TODO:** incorporate this?).
+
+  
+![\\frac{\\textrm{d}p\_i}{\\textrm{d}t} = 
+\\left( c\_i p\_i + h\_i \\right) \\left( 1 - \\sum\_{j = 1}^{i} p\_j
+\\right) -
+\\left( m\_i + \\sum\_{j = 1}^{i-1} c\_j p\_j + h\_j \\right)
+p\_i](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7B%5Ctextrm%7Bd%7Dp_i%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20%5Cleft%28%20c_i%20p_i%20%2B%20h_i%20%5Cright%29%20%5Cleft%28%201%20-%20%5Csum_%7Bj%20%3D%201%7D%5E%7Bi%7D%20p_j%20%5Cright%29%20-%0A%20%20%20%20%20%20%20%20%5Cleft%28%20m_i%20%2B%20%5Csum_%7Bj%20%3D%201%7D%5E%7Bi-1%7D%20c_j%20p_j%20%2B%20h_j%20%5Cright%29%20p_i
+"\\frac{\\textrm{d}p_i}{\\textrm{d}t} = 
+        \\left( c_i p_i + h_i \\right) \\left( 1 - \\sum_{j = 1}^{i} p_j \\right) -
+        \\left( m_i + \\sum_{j = 1}^{i-1} c_j p_j + h_j \\right) p_i")  
 
 ## GitHub Documents
 
