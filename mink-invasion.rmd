@@ -1,0 +1,40 @@
+---
+title: "Modelling the invasive American Mink in the Pyrenees"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The model
+
+This model is taken from [Catford et al. 2018](http://www.nature.com/articles/s41467-018-04491-3).
+
+$$\frac{\textrm{d}p_i}{\textrm{d}t} = 
+        \left( c_i p_i + h_i \right) \left( 1 - \sum_{j = 1}^{i} p_j \right) -
+        \left( m_i + \sum_{j = 1}^{i-1} c_j p_j + h_j \right) p_i$$
+
+
+
+## GitHub Documents
+
+This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+
+## Including Code
+
+You can include R code in the document as follows:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
