@@ -5,9 +5,9 @@ Modelling the invasive American Mink in the Pyrenees
 
 In the Pyrenees, several small carnivores compete for habitat and prey.
 Of these, the [European
-Mink](https://en.wikipedia.org/wiki/European_mink) is highly threatened,
+mink](https://en.wikipedia.org/wiki/European_mink) is highly threatened,
 due to competition with the invasive [American
-Mink](https://en.wikipedia.org/wiki/American_mink). The population of
+mink](https://en.wikipedia.org/wiki/American_mink). The population of
 European Mink in the Pyrenees is one of the last remaining in Europe,
 and conservation of the species depends on us finding a way to mitigate
 the threats in this region.
@@ -29,9 +29,10 @@ similar size and some overlap in food sources, these species have
 importantly different [ecological
 niches](https://en.wikipedia.org/wiki/Ecological_niche) to the mink,
 with both being omnivorous and terrestrial. We will include these
-species in the model to make it more realistic, but taking account of
-the difference in diet and behaviour which should mean that they
-interact less with the species of interest.
+species in the model to make it more realistic. It is possible to adjust
+the model below to take account of the difference in diet and behaviour
+which would mean that they interact less with the species of interest
+(**TODO:** incorporate this?).
 
 ## The model
 
@@ -47,6 +48,9 @@ p\_i](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&spa
 "\\frac{\\textrm{d}p_i}{\\textrm{d}t} = 
         \\left( c_i p_i + h_i \\right) \\left( 1 - \\sum_{j = 1}^{i} p_j \\right) -
         \\left( m_i + \\sum_{j = 1}^{i-1} c_j p_j + h_j \\right) p_i")  
+
+We assume all species make *universal trade-offs* (see
+[Tilman 2011](https://www.journals.uchicago.edu/doi/10.1086/661245)).
 
 ## GitHub Documents
 
