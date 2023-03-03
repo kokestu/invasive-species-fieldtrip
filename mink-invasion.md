@@ -1,6 +1,38 @@
 Modelling the invasive American Mink in the Pyrenees
 ================
 
+## The system
+
+In the Pyrenees, several small carnivores compete for habitat and prey.
+Of these, the [European
+Mink](https://en.wikipedia.org/wiki/European_mink) is highly threatened,
+due to competition with the invasive [American
+Mink](https://en.wikipedia.org/wiki/American_mink). The population of
+European Mink in the Pyrenees is one of the last remaining in Europe,
+and conservation of the species depends on us finding a way to mitigate
+the threats in this region.
+
+The European and American mink are both semi-aquatic
+[mustelids](https://en.wikipedia.org/wiki/Mustelidae) which have
+relatively small territories on rivers or coasts. They hunt small
+rodents, birds, fish, and crustaceans. Despite the similarities that
+have led to their common name, they are members of distinct evolutionary
+lineages, with the European mink being more closely related to weasels
+and ferrets than the American mink. Therefore, their similar lifestyles
+are an example of [convergent
+evolution](https://en.wikipedia.org/wiki/Convergent_evolution).
+
+As well as the two mink, other species with similar ranges include the
+[red fox](https://en.wikipedia.org/wiki/Red_fox) and [European
+badger](https://en.wikipedia.org/wiki/European_badger). Despite their
+similar size and some overlap in food sources, these species have
+importantly different [ecological
+niches](https://en.wikipedia.org/wiki/Ecological_niche) to the mink,
+with both being omnivorous and terrestrial. We will include these
+species in the model to make it more realistic, but taking account of
+the difference in diet and behaviour which should mean that they
+interact less with the species of interest.
+
 ## The model
 
 This model is taken from [Catford et
