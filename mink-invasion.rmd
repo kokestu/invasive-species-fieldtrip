@@ -116,12 +116,10 @@ Now that we have a simple model of our population of European mink in isolation,
 we have an invasion of American mink. We can extend the logistic model above into a pair of equations called
 the [Lotka-Volterra competition model](https://en.wikipedia.org/wiki/Competitive_Lotka%E2%80%93Volterra_equations):
 
-$$
-\frac{\textrm{d}x}{\textrm{d}t} = 
+$$\frac{\textrm{d}x}{\textrm{d}t} = 
         r x \left( 1 - \frac{x + \alpha_{xy} y}{K} \right) \\
 \frac{\textrm{d}y}{\textrm{d}t} = 
-        r y \left( 1 - \frac{y + \alpha_{yx} x}{K} \right)
-$$
+        r y \left( 1 - \frac{y + \alpha_{yx} x}{K} \right)$$
 
 Now we have two populations, $x$ and $y$, that interact with each other. The first equation is fairly similar to
 the logistic model we saw above, but now we see the population of American mink is also contributing to reaching
