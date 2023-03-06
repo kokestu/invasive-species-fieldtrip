@@ -30,7 +30,14 @@ run_simulation <- function(
         # Run the simulation. Use a first-order approximation.
         for (t in 1:n_steps) {
                 results[t + 1, -1] <- results[t, -1] + f(results[t, -1]) * d
-                results[t + 1, 1] <- t * d   # Add the timestamp
+                # Prevent negative populations
+                results[t + 1, -1] <- ifelse(
+                        results[t + 1, -1] < 0,
+                        0,
+                        results[t + 1, -1]
+                )
+                # Add the timestamp
+                results[t + 1, 1] <- t * d
         }
         return(results)
 }
@@ -108,7 +115,7 @@ generations to get to 1,000 individuals! The power of
 **Exercise:** If the average litter size is reduced to three kits -- perhaps by some chemical pollutant --
 how long will it now take the population of mink to reach the carrying capacity?
 
-## Introducing competition TODO
+## Introducing competition
 
 Now that we have a simple model of our population of European mink in isolation, let's see what happens when
 we have an invasion of American mink. We can extend the logistic model above into a pair of equations called
@@ -232,7 +239,7 @@ It is possible to include these species in the model, and also to adjust the com
 and behaviour which would mean that they interact less with the species of interest. However, the model with these additions functions similarly,
 at the cost of being more complicated, so we won't bother going into it here. If you're interested in how we would go about doing this, ask me.
 
-## Escapes from farms TODO
+## Propagule pressure and conservation
 
 In this section, we will pivot a little to look at a modern model of invasion, taken from
 [Catford et al. 2018](http://www.nature.com/articles/s41467-018-04491-3).
@@ -250,8 +257,10 @@ number of individuals, we will model the number of territories occupied by each 
 territory of its own, it will die).
 
 Additionally, we will add a new
-term that represents per-capita mortality of the mink. Both species have a lifespan of approximately 10 years, so the per-capita mortality
-rate is $m = \frac{1}{10} = 0.1$.
+term that represents per-capita mortality of the mink. Both species have a lifespan of approximately 10 years (although the 
+invasive may have a longer lifespan), so the per-capita mortality
+rate is $m_x = m_y = \frac{1}{10} = 0.1$ (we assume that the only cause of death of an individual which occupies some habitat is
+[senescence](https://en.wikipedia.org/wiki/Senescence))
 
 Finally, we will think about competition more concretely. There is some evidence that species around the world make
 *universal trade-offs* (see [Tilman 2011](https://www.journals.uchicago.edu/doi/10.1086/661245)). That is, every species is subject to
@@ -268,10 +277,112 @@ $$
 \\
 \frac{\textrm{d}x}{\textrm{d}t} = 
         \left( r_x x + h_x \right) \left( 1 - \frac{x + y}{K} \right) -
-        \left( m + r_y y + h_y \right) x \\
+        \left( m_x + r_y \frac{y}{K} + h_y \right) x \\
 \frac{\textrm{d}y}{\textrm{d}t} = 
         \left( r_y y + h_y \right) \left( 1 - \frac{y}{K} \right) -
-        m y$$
+        m_y y$$
 
 Now, these equations are different for the two species (due to differences we outlined above). Each equation has two parts, the first
-representing colonisation of new territories, and the second part representing loss of territory due to death or displacement.
+representing colonisation of new territories, and the second part representing loss of territory due to death or displacement. In the case
+of the native European mink ($x$), the proportion of patches avaiable to it for colonisation is
+
+```{r}
+catford <- function(
+        X,
+        hx = 0,
+        hy = 0,    # Propagule pressure -- 0 for now.
+        mx = 0.1,
+        my = mx   # Mortality rates -- equal for now.
+) {
+        # Define the parameters.
+        K <- 100    # Number of habitat patches
+        rx <- 2.5
+        ry <- 2     # Smaller litters for the invader
+        # Read the current population values
+        x <- X[1]
+        y <- X[2]
+        # Calculate the equation results.
+        res_x <- (rx * x + hx) * (1 - (x + y) / K) - (mx + ry * y / K + hy) * x
+        res_y <- (ry * y + hy) * (1 - y / K) - my * y
+        return(c(res_x, res_y))
+}
+```
+
+```{r}
+res <- run_simulation(
+        catford,          # Use our model.
+        X = c(100, 10),   # Start with 10 invaders, and the natives at carrying capacity.
+        N = 20            # Run it for 20 generations (ie. years).
+)
+```
+
+```{r}
+# Plot our results.
+plot(
+        res[, 1], res[, 2],  # Natives
+        type = "l",    # For a line graph
+        col = "red",
+        xlab = "Number of generations",
+        ylab = "Number of mink",
+        main = "Competition between European and American mink",
+        ylim = c(0, 100)    # Plot the full y-axis
+)
+lines(res[, 1], res[, 3], col = "blue")  # Invaders
+legend(
+        "topright",
+        legend = c("European mink", "American mink"),
+        fill = c("red", "blue")
+)
+```
+
+Wow, so in this model, we get extinction of the native almost immediately (after only a couple of years). Now, let's think about our
+breed-and-release program -- how many European mink would we need to breed and release every year to have a viable population of the native?
+
+```{r}
+# Let's run a simulation for values of hx ranging from 1 to 1000, and see
+# how many European mink-occupied habitats we have after 50 years.
+hx <- 1:1000
+res <- rep(NA, length(hx))    # create a vector to hold the results
+for (i in seq_along(hx)) {
+        sim_res <- run_simulation(
+                # Use our model with the new value of h
+                function(X) catford(X, hx = hx[i]),
+                X = c(100, 10),   # Start with 10 invaders, and the natives at carrying capacity.
+                N = 50            # Run it for 50 generations (ie. years).
+        )
+        # Store the last value of the native population.
+        res[i] <- floor(sim_res[nrow(sim_res), 2])
+}
+```
+
+```{r}
+# Let's plot the results.
+plot(
+        hx, res,
+        xlab = "Size of annual release",
+        ylab = "Stable native population size",
+        main = "Size of breeding program necessary to maintain populations of the native after 50 years",
+)
+```
+
+Looking at this, we can see that even when we breed and release hundreds of native mink a year, we are unable to maintain a number of
+occupied patches more than 10. If there are also American mink escaping from fur farms (i.e. if $h_y > 0$), this will be even less
+effective.
+
+Another way that we can improve the chances of the native mink is to increase the mortality rate of the invader. Since the only habitat
+patches that the native species is able to colonise are those which are empty (i.e. those vacated by death), increasing the rate of death
+increases the number of patches available to the native. This could be achieved via a culling program. We will look at this in the exercise.
+
+There are some problems with this model. Firstly, it's somewhat unrealistic to assume that the American mink will *always* be able to displace
+the European mink if they compete for habitat. The invasive may be larger *on average*, but there will be cases where a larger-than-average
+European mink is able to displace (or resist displacement by) an American mink. We could incorporate this into the model by allowing the
+natives to colonise some territories occupied by the invasive, and also by preventing the invasive from colonising *all* of the territories
+held by the native. Secondly, we know that human-caused disturbance will be impacting these populations too -- we should really account for
+this. Also, it seems presumptuous to assume that the mortality rate of the mink is not part of the tradeoff that they make. I (Jonathan)
+will be incorporating all of these factors (and more) into this model as part of my PhD!
+
+**Exercise:** What level of mortality for the invader produces a stable population of the native (hint: use the same method as we used above
+for the breed-and-release program)?
+
+**Exercise:** What if we have differing mortality as well as breed-and-release? Can you come up with a method to do a cost-benefit
+analysis between culling and breed-and-release?

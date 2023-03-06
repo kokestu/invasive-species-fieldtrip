@@ -110,7 +110,7 @@ growth](https://en.wikipedia.org/wiki/Exponential_growth#Biology).
 perhaps by some chemical pollutant – how long will it now take the
 population of mink to reach the carrying capacity?
 
-## Introducing competition TODO
+## Introducing competition
 
 Now that we have a simple model of our population of European mink in
 isolation, let’s see what happens when we have an invasion of American
@@ -309,7 +309,7 @@ However, the model with these additions functions similarly, at the cost
 of being more complicated, so we won’t bother going into it here. If
 you’re interested in how we would go about doing this, ask me.
 
-## Escapes from farms TODO
+## Propagule pressure and conservation
 
 In this section, we will pivot a little to look at a modern model of
 invasion, taken from [Catford et
@@ -338,9 +338,12 @@ doesn’t have a territory of its own, it will die).
 
 Additionally, we will add a new term that represents per-capita
 mortality of the mink. Both species have a lifespan of approximately 10
-years, so the per-capita mortality rate is ![m = \\frac{1}{10}
-= 0.1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;m%20%3D%20%5Cfrac%7B1%7D%7B10%7D%20%3D%200.1
-"m = \\frac{1}{10} = 0.1").
+years (although the invasive may have a longer lifespan), so the
+per-capita mortality rate is ![m\_x = m\_y = \\frac{1}{10}
+= 0.1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;m_x%20%3D%20m_y%20%3D%20%5Cfrac%7B1%7D%7B10%7D%20%3D%200.1
+"m_x = m_y = \\frac{1}{10} = 0.1") (we assume that the only cause of
+death of an individual which occupies some habitat is
+[senescence](https://en.wikipedia.org/wiki/Senescence))
 
 Finally, we will think about competition more concretely. There is some
 evidence that species around the world make *universal trade-offs* (see
@@ -364,24 +367,149 @@ Let’s build our model.
 \\\\
 \\frac{\\textrm{d}x}{\\textrm{d}t} = 
 \\left( r\_x x + h\_x \\right) \\left( 1 - \\frac{x + y}{K} \\right) -
-\\left( m + r\_y y + h\_y \\right) x \\\\
+\\left( m\_x + r\_y \\frac{y}{K} + h\_y \\right) x \\\\
 \\frac{\\textrm{d}y}{\\textrm{d}t} = 
 \\left( r\_y y + h\_y \\right) \\left( 1 - \\frac{y}{K} \\right) -
-m
-y](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0A%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dx%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20%5Cleft%28%20r_x%20x%20%2B%20h_x%20%5Cright%29%20%5Cleft%28%201%20-%20%5Cfrac%7Bx%20%2B%20y%7D%7BK%7D%20%5Cright%29%20-%0A%20%20%20%20%20%20%20%20%5Cleft%28%20m%20%2B%20r_y%20y%20%2B%20h_y%20%5Cright%29%20x%20%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dy%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20%5Cleft%28%20r_y%20y%20%2B%20h_y%20%5Cright%29%20%5Cleft%28%201%20-%20%5Cfrac%7By%7D%7BK%7D%20%5Cright%29%20-%0A%20%20%20%20%20%20%20%20m%20y
+m\_y
+y](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0A%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dx%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20%5Cleft%28%20r_x%20x%20%2B%20h_x%20%5Cright%29%20%5Cleft%28%201%20-%20%5Cfrac%7Bx%20%2B%20y%7D%7BK%7D%20%5Cright%29%20-%0A%20%20%20%20%20%20%20%20%5Cleft%28%20m_x%20%2B%20r_y%20%5Cfrac%7By%7D%7BK%7D%20%2B%20h_y%20%5Cright%29%20x%20%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dy%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20%5Cleft%28%20r_y%20y%20%2B%20h_y%20%5Cright%29%20%5Cleft%28%201%20-%20%5Cfrac%7By%7D%7BK%7D%20%5Cright%29%20-%0A%20%20%20%20%20%20%20%20m_y%20y
 "
 \\\\
 \\frac{\\textrm{d}x}{\\textrm{d}t} = 
         \\left( r_x x + h_x \\right) \\left( 1 - \\frac{x + y}{K} \\right) -
-        \\left( m + r_y y + h_y \\right) x \\\\
+        \\left( m_x + r_y \\frac{y}{K} + h_y \\right) x \\\\
 \\frac{\\textrm{d}y}{\\textrm{d}t} = 
         \\left( r_y y + h_y \\right) \\left( 1 - \\frac{y}{K} \\right) -
-        m y")  
+        m_y y")  
 
 Now, these equations are different for the two species (due to
 differences we outlined above). Each equation has two parts, the first
 representing colonisation of new territories, and the second part
-representing loss of territory due to death or displacement.
+representing loss of territory due to death or displacement. In the case
+of the native European mink
+(![x](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;x
+"x")), the proportion of patches avaiable to it for colonisation is
+
+``` r
+catford <- function(
+        X,
+        hx = 0,
+        hy = 0,    # Propagule pressure -- 0 for now.
+        mx = 0.1,
+        my = mx   # Mortality rates -- equal for now.
+) {
+        # Define the parameters.
+        K <- 100    # Number of habitat patches
+        rx <- 2.5
+        ry <- 2     # Smaller litters for the invader
+        # Read the current population values
+        x <- X[1]
+        y <- X[2]
+        # Calculate the equation results.
+        res_x <- (rx * x + hx) * (1 - (x + y) / K) - (mx + ry * y / K + hy) * x
+        res_y <- (ry * y + hy) * (1 - y / K) - my * y
+        return(c(res_x, res_y))
+}
+```
+
+``` r
+res <- run_simulation(
+        catford,          # Use our model.
+        X = c(100, 10),   # Start with 10 invaders, and the natives at carrying capacity.
+        N = 20            # Run it for 20 generations (ie. years).
+)
+```
+
+``` r
+# Plot our results.
+plot(
+        res[, 1], res[, 2],  # Natives
+        type = "l",    # For a line graph
+        col = "red",
+        xlab = "Number of generations",
+        ylab = "Number of mink",
+        main = "Competition between European and American mink",
+        ylim = c(0, 100)    # Plot the full y-axis
+)
+lines(res[, 1], res[, 3], col = "blue")  # Invaders
+legend(
+        "topright",
+        legend = c("European mink", "American mink"),
+        fill = c("red", "blue")
+)
+```
+
+![](mink-invasion_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+Wow, so in this model, we get extinction of the native almost
+immediately (after only a couple of years). Now, let’s think about our
+breed-and-release program – how many European mink would we need to
+breed and release every year to have a viable population of the native?
+
+``` r
+# Let's run a simulation for values of hx ranging from 1 to 1000, and see
+# how many European mink-occupied habitats we have after 50 years.
+hx <- 1:1000
+res <- rep(NA, length(hx))    # create a vector to hold the results
+for (i in seq_along(hx)) {
+        sim_res <- run_simulation(
+                # Use our model with the new value of h
+                function(X) catford(X, hx = hx[i]),
+                X = c(100, 10),   # Start with 10 invaders, and the natives at carrying capacity.
+                N = 50            # Run it for 50 generations (ie. years).
+        )
+        # Store the last value of the native population.
+        res[i] <- floor(sim_res[nrow(sim_res), 2])
+}
+```
+
+``` r
+# Let's plot the results.
+plot(
+        hx, res,
+        xlab = "Size of annual release",
+        ylab = "Stable native population size",
+        main = "Size of breeding program necessary to maintain populations of the native after 50 years",
+)
+```
+
+![](mink-invasion_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+Looking at this, we can see that even when we breed and release hundreds
+of native mink a year, we are unable to maintain a number of occupied
+patches more than 10. If there are also American mink escaping from fur
+farms (i.e. if ![h\_y
+\> 0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;h_y%20%3E%200
+"h_y \> 0")), this will be even less effective.
+
+Another way that we can improve the chances of the native mink is to
+increase the mortality rate of the invader. Since the only habitat
+patches that the native species is able to colonise are those which are
+empty (i.e. those vacated by death), increasing the rate of death
+increases the number of patches available to the native. This could be
+achieved via a culling program. We will look at this in the exercise.
+
+There are some problems with this model. Firstly, it’s somewhat
+unrealistic to assume that the American mink will *always* be able to
+displace the European mink if they compete for habitat. The invasive may
+be larger *on average*, but there will be cases where a
+larger-than-average European mink is able to displace (or resist
+displacement by) an American mink. We could incorporate this into the
+model by allowing the natives to colonise some territories occupied by
+the invasive, and also by preventing the invasive from colonising *all*
+of the territories held by the native. Secondly, we know that
+human-caused disturbance will be impacting these populations too – we
+should really account for this. Also, it seems presumptuous to assume
+that the mortality rate of the mink is not part of the tradeoff that
+they make. I (Jonathan) will be incorporating all of these factors (and
+more) into this model as part of my PhD\!
+
+**Exercise:** What level of mortality for the invader produces a stable
+population of the native (hint: use the same method as we used above for
+the breed-and-release program)?
+
+**Exercise:** What if we have differing mortality as well as
+breed-and-release? Can you come up with a method to do a cost-benefit
+analysis between culling and breed-and-release?
 
 1.  <https://en.wikipedia.org/wiki/European_mink#Reproduction_and_development>
 
