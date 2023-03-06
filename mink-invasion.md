@@ -90,15 +90,13 @@ res <- run_simulation(
 ``` r
 # Plot our results.
 plot(
-        res[, 1], res[, 2], type = "line",
+        res[, 1], res[, 2],
+        type = "l",    # For a line graph
         xlab = "Number of generations",
         ylab = "Number of mink",
         main = "Growth of a mink population"
 )
 ```
-
-    ## Warning in plot.xy(xy, type, ...): plot type 'line' will be truncated to first
-    ## character
 
 ![](mink-invasion_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
@@ -112,7 +110,7 @@ growth](https://en.wikipedia.org/wiki/Exponential_growth#Biology).
 perhaps by some chemical pollutant – how long will it now take the
 population of mink to reach the carrying capacity?
 
-## Introducing competition
+## Introducing competition TODO
 
 Now that we have a simple model of our population of European mink in
 isolation, let’s see what happens when we have an invasion of American
@@ -145,7 +143,9 @@ carrying capacity
 ![K](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;K
 "K") in the term ![\\frac{x + \\alpha\_{xy}
 y}{K}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7Bx%20%2B%20%5Calpha_%7Bxy%7D%20y%7D%7BK%7D
-"\\frac{x + \\alpha_{xy} y}{K}") (we’ll talk more about the )
+"\\frac{x + \\alpha_{xy} y}{K}") (we’ll talk more about the
+![\\alpha](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha
+"\\alpha") in a second).
 
 ## Extending the model TODO
 
@@ -205,37 +205,6 @@ p\_i](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&spa
 "\\frac{\\textrm{d}p_i}{\\textrm{d}t} = 
         \\left( c_i p_i + h_i \\right) \\left( 1 - \\sum_{j = 1}^{i} p_j \\right) -
         \\left( m_i + \\sum_{j = 1}^{i-1} c_j p_j + h_j \\right) p_i")  
-
-## GitHub Documents
-
-This is an R Markdown format used for publishing markdown documents to
-GitHub. When you click the **Knit** button all R code chunks are run and
-a markdown file (.md) suitable for publishing to GitHub is generated.
-
-## Including Code
-
-You can include R code in the document as follows:
-
-``` r
-summary(cars)
-```
-
-    ##      speed           dist       
-    ##  Min.   : 4.0   Min.   :  2.00  
-    ##  1st Qu.:12.0   1st Qu.: 26.00  
-    ##  Median :15.0   Median : 36.00  
-    ##  Mean   :15.4   Mean   : 42.98  
-    ##  3rd Qu.:19.0   3rd Qu.: 56.00  
-    ##  Max.   :25.0   Max.   :120.00
-
-## Including Plots
-
-You can also embed plots, for example:
-
-![](mink-invasion_files/figure-gfm/pressure-1.png)<!-- -->
-
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.
 
 1.  Other modellers: I’m going to use simulation models of all these
     here (even when analytic solutions exist) since I think it makes it

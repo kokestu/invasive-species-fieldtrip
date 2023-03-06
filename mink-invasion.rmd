@@ -94,7 +94,8 @@ res <- run_simulation(
 ```{r}
 # Plot our results.
 plot(
-        res[, 1], res[, 2], type = "line",
+        res[, 1], res[, 2],
+        type = "l",    # For a line graph
         xlab = "Number of generations",
         ylab = "Number of mink",
         main = "Growth of a mink population"
@@ -109,7 +110,7 @@ generations to get to 1,000 individuals! The power of
 **Exercise:** If the average litter size is reduced to three kits -- perhaps by some chemical pollutant --
 how long will it now take the population of mink to reach the carrying capacity?
 
-## Introducing competition
+## Introducing competition TODO
 
 Now that we have a simple model of our population of European mink in isolation, let's see what happens when
 we have an invasion of American mink. We can extend the logistic model above into a pair of equations called
@@ -124,7 +125,7 @@ $$
 
 Now we have two populations, $x$ and $y$, that interact with each other. The first equation is fairly similar to
 the logistic model we saw above, but now we see the population of American mink is also contributing to reaching
-the carrying capacity $K$ in the term $\frac{x + \alpha_{xy} y}{K}$ (we'll talk more about the )
+the carrying capacity $K$ in the term $\frac{x + \alpha_{xy} y}{K}$ (we'll talk more about the $\alpha$ in a second).
 
 ## Extending the model TODO
 
@@ -159,25 +160,3 @@ that is, for every
 $$\frac{\textrm{d}p_i}{\textrm{d}t} = 
         \left( c_i p_i + h_i \right) \left( 1 - \sum_{j = 1}^{i} p_j \right) -
         \left( m_i + \sum_{j = 1}^{i-1} c_j p_j + h_j \right) p_i$$
-
-## GitHub Documents
-
-This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
-
-## Including Code
-
-You can include R code in the document as follows:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
