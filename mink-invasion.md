@@ -387,7 +387,15 @@ representing colonisation of new territories, and the second part
 representing loss of territory due to death or displacement. In the case
 of the native European mink
 (![x](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;x
-"x")), the proportion of patches avaiable to it for colonisation is
+"x")), the patches available to it for colonisation are only those that
+are not already occupied by either the native or the invasive. The
+European mink loses habitat patches only via mortality or displacement
+from the invasive. In the case of the American mink, it is able to
+colonise patches that are either empty or occupied by the European mink
+– since it is competitively dominant. It will only lose patches due to
+mortality, since the European mink is unable to displace it.
+
+Let’s write this out.
 
 ``` r
 catford <- function(
@@ -468,7 +476,7 @@ plot(
         hx, res,
         xlab = "Size of annual release",
         ylab = "Stable native population size",
-        main = "Size of breeding program necessary to maintain populations of the native after 50 years",
+        main = "Release to maintain a population of the native",
 )
 ```
 
