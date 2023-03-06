@@ -309,51 +309,79 @@ However, the model with these additions functions similarly, at the cost
 of being more complicated, so we won’t bother going into it here. If
 you’re interested in how we would go about doing this, ask me.
 
-## Escapes from farms
+## Escapes from farms TODO
+
+In this section, we will pivot a little to look at a modern model of
+invasion, taken from [Catford et
+al. 2018](http://www.nature.com/articles/s41467-018-04491-3).
 
 The reason that the American mink was introduced to Europe is in order
 to [farm it for fur](https://en.wikipedia.org/wiki/Fur_farming), and and
 escaped mink from fur farms can bolster self-sustaining wild
 populations. This effect is called [propagule
 pressure](https://en.wikipedia.org/wiki/Propagule_pressure) in invasion
-science.
+science. We will incorporate the propagule pressure in this model as a
+new parameter
+![h](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;h
+"h") for both populations – an equivalent for the endangered native
+could be a breed and release conservation project.
 
-*This model is taken from [Catford et
-al. 2018](http://www.nature.com/articles/s41467-018-04491-3)*.
-
-  
-![\\frac{\\textrm{d}p\_i}{\\textrm{d}t} = 
-\\left( c\_i p\_i + h\_i \\right) \\left( 1 - \\sum\_{j = 1}^{i} p\_j
-\\right) -
-\\left( m\_i + \\sum\_{j = 1}^{i-1} c\_j p\_j + h\_j \\right)
-p\_i](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7B%5Ctextrm%7Bd%7Dp_i%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20%5Cleft%28%20c_i%20p_i%20%2B%20h_i%20%5Cright%29%20%5Cleft%28%201%20-%20%5Csum_%7Bj%20%3D%201%7D%5E%7Bi%7D%20p_j%20%5Cright%29%20-%0A%20%20%20%20%20%20%20%20%5Cleft%28%20m_i%20%2B%20%5Csum_%7Bj%20%3D%201%7D%5E%7Bi-1%7D%20c_j%20p_j%20%2B%20h_j%20%5Cright%29%20p_i
-"\\frac{\\textrm{d}p_i}{\\textrm{d}t} = 
-        \\left( c_i p_i + h_i \\right) \\left( 1 - \\sum_{j = 1}^{i} p_j \\right) -
-        \\left( m_i + \\sum_{j = 1}^{i-1} c_j p_j + h_j \\right) p_i")  
-
-In this model, we will imagine that the area of interest is divided into
+In this model, we will make the idea of a carrying capacity more
+concrete by imagining that the area of interest is divided into
 territories that are occupied by a single member of one of the species.
 In the case of the mink, these territories are usually 1-6km of
-riverbank, but can also include ponds and coastal areas. We will model
-the proportion of the region that is occupied by each of these species.
-For example, if European mink occupies 90% of the available habitat,
-then the American mink will occupy 10%.
+riverbank \[5\], but can also include ponds and coastal areas. The
+carrying capacity is the number of territories available, and instead of
+modelling the number of individuals, we will model the number of
+territories occupied by each species (assuming that if an individual
+doesn’t have a territory of its own, it will die).
 
-The female American mink has four kits on average per year, and the
-European mink has a slightly larger litter of five kits. There is
+Additionally, we will add a new term that represents per-capita
+mortality of the mink. Both species have a lifespan of approximately 10
+years, so the per-capita mortality rate is ![m = \\frac{1}{10}
+= 0.1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;m%20%3D%20%5Cfrac%7B1%7D%7B10%7D%20%3D%200.1
+"m = \\frac{1}{10} = 0.1").
+
+Finally, we will think about competition more concretely. There is some
 evidence that species around the world make *universal trade-offs* (see
-[Tilman 2011](https://www.journals.uchicago.edu/doi/10.1086/661245)),
-that is, for every
+[Tilman 2011](https://www.journals.uchicago.edu/doi/10.1086/661245)).
+That is, every species is subject to fundamental biological constraints
+that limit how many resources they can invest in different axes of
+competition. In this model, we will assume that there is a tradeoff
+between fecundity (litter size) and ability to compete for habitat. In
+this case, we could think of this in terms of resource use between the
+two species. We know that the European mink produces more offspring and
+that the American mink is slightly larger, representing a tradeoff in
+the allocation of
+[biomass](https://en.wikipedia.org/wiki/Biomass_\(ecology\)) acquired
+from food. Let’s assume that the larger size of the invasive allows it
+to displace European mink from habitat patches they occupy.
+
+Let’s build our model.
 
   
-![\\frac{\\textrm{d}p\_i}{\\textrm{d}t} = 
-\\left( c\_i p\_i + h\_i \\right) \\left( 1 - \\sum\_{j = 1}^{i} p\_j
-\\right) -
-\\left( m\_i + \\sum\_{j = 1}^{i-1} c\_j p\_j + h\_j \\right)
-p\_i](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7B%5Ctextrm%7Bd%7Dp_i%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20%5Cleft%28%20c_i%20p_i%20%2B%20h_i%20%5Cright%29%20%5Cleft%28%201%20-%20%5Csum_%7Bj%20%3D%201%7D%5E%7Bi%7D%20p_j%20%5Cright%29%20-%0A%20%20%20%20%20%20%20%20%5Cleft%28%20m_i%20%2B%20%5Csum_%7Bj%20%3D%201%7D%5E%7Bi-1%7D%20c_j%20p_j%20%2B%20h_j%20%5Cright%29%20p_i
-"\\frac{\\textrm{d}p_i}{\\textrm{d}t} = 
-        \\left( c_i p_i + h_i \\right) \\left( 1 - \\sum_{j = 1}^{i} p_j \\right) -
-        \\left( m_i + \\sum_{j = 1}^{i-1} c_j p_j + h_j \\right) p_i")  
+![
+\\\\
+\\frac{\\textrm{d}x}{\\textrm{d}t} = 
+\\left( r\_x x + h\_x \\right) \\left( 1 - \\frac{x + y}{K} \\right) -
+\\left( m + r\_y y + h\_y \\right) x \\\\
+\\frac{\\textrm{d}y}{\\textrm{d}t} = 
+\\left( r\_y y + h\_y \\right) \\left( 1 - \\frac{y}{K} \\right) -
+m
+y](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0A%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dx%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20%5Cleft%28%20r_x%20x%20%2B%20h_x%20%5Cright%29%20%5Cleft%28%201%20-%20%5Cfrac%7Bx%20%2B%20y%7D%7BK%7D%20%5Cright%29%20-%0A%20%20%20%20%20%20%20%20%5Cleft%28%20m%20%2B%20r_y%20y%20%2B%20h_y%20%5Cright%29%20x%20%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dy%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20%5Cleft%28%20r_y%20y%20%2B%20h_y%20%5Cright%29%20%5Cleft%28%201%20-%20%5Cfrac%7By%7D%7BK%7D%20%5Cright%29%20-%0A%20%20%20%20%20%20%20%20m%20y
+"
+\\\\
+\\frac{\\textrm{d}x}{\\textrm{d}t} = 
+        \\left( r_x x + h_x \\right) \\left( 1 - \\frac{x + y}{K} \\right) -
+        \\left( m + r_y y + h_y \\right) x \\\\
+\\frac{\\textrm{d}y}{\\textrm{d}t} = 
+        \\left( r_y y + h_y \\right) \\left( 1 - \\frac{y}{K} \\right) -
+        m y")  
+
+Now, these equations are different for the two species (due to
+differences we outlined above). Each equation has two parts, the first
+representing colonisation of new territories, and the second part
+representing loss of territory due to death or displacement.
 
 1.  <https://en.wikipedia.org/wiki/European_mink#Reproduction_and_development>
 
@@ -364,3 +392,5 @@ p\_i](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&spa
 3.  <https://en.wikipedia.org/wiki/American_mink#Reproduction_and_development>
 
 4.  <https://en.wikipedia.org/wiki/American_mink#Decline_of_wild_mink>
+
+5.  <https://en.wikipedia.org/wiki/European_mink#Territorial_and_denning_behaviours>
