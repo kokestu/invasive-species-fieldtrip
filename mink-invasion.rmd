@@ -29,10 +29,8 @@ run_simulation <- function(
         results[1, ] <- c(0, X)
         # Run the simulation. Use a first-order approximation.
         for (t in 1:n_steps) {
-                results[t + 1, 2:(n_pop + 1)] <-
-                        results[t, 2:(n_pop + 1)] +
-                        f(results[t, 2:(n_pop + 1)]) * d
-                results[t + 1, 1] <- t * d
+                results[t + 1, -1] <- results[t, -1] + f(results[t, -1]) * d
+                results[t + 1, 1] <- t * d   # Add the timestamp
         }
         return(results)
 }
