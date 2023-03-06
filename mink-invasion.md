@@ -53,8 +53,8 @@ support 1,000 individuals for now.
 "r") is the per-capita [*intrinsic growth
 rate*](https://en.wikipedia.org/wiki/Population_dynamics#Intrinsic_rate_of_increase),
 we can get the value for this from the litter size of the mink. The
-European mink has an average litter size of five kits, so the per-capita
-rate of increase is
+European mink has an average litter size of five kits \[1\], so the
+per-capita rate of increase is
 ![2.5](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;2.5
 "2.5") (since only females bear offspring). The term ![1 -
 \\frac{x}{K}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;1%20-%20%5Cfrac%7Bx%7D%7BK%7D
@@ -66,7 +66,7 @@ rate of increase is
 as we get closer to the carrying capacity – which makes sense, since
 there are fewer resources remaining.
 
-Let’s model this\[1\].
+Let’s model this\[2\].
 
 ``` r
 logistic <- function(X) {
@@ -122,16 +122,16 @@ model](https://en.wikipedia.org/wiki/Competitive_Lotka%E2%80%93Volterra_equation
 ![
 \\\\
 \\frac{\\textrm{d}x}{\\textrm{d}t} = 
-r x \\left( 1 - \\frac{x + \\alpha\_{xy} y}{K} \\right) \\\\
+r\_x x \\left( 1 - \\frac{x + \\alpha\_{xy} y}{K} \\right) \\\\
 \\frac{\\textrm{d}y}{\\textrm{d}t} = 
-r y \\left( 1 - \\frac{y + \\alpha\_{yx} x}{K}
-\\right)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0A%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dx%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20r%20x%20%5Cleft%28%201%20-%20%5Cfrac%7Bx%20%2B%20%5Calpha_%7Bxy%7D%20y%7D%7BK%7D%20%5Cright%29%20%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dy%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20r%20y%20%5Cleft%28%201%20-%20%5Cfrac%7By%20%2B%20%5Calpha_%7Byx%7D%20x%7D%7BK%7D%20%5Cright%29
+r\_y y \\left( 1 - \\frac{y + \\alpha\_{yx} x}{K}
+\\right)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0A%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dx%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20r_x%20x%20%5Cleft%28%201%20-%20%5Cfrac%7Bx%20%2B%20%5Calpha_%7Bxy%7D%20y%7D%7BK%7D%20%5Cright%29%20%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dy%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20r_y%20y%20%5Cleft%28%201%20-%20%5Cfrac%7By%20%2B%20%5Calpha_%7Byx%7D%20x%7D%7BK%7D%20%5Cright%29
 "
 \\\\
 \\frac{\\textrm{d}x}{\\textrm{d}t} = 
-        r x \\left( 1 - \\frac{x + \\alpha_{xy} y}{K} \\right) \\\\
+        r_x x \\left( 1 - \\frac{x + \\alpha_{xy} y}{K} \\right) \\\\
 \\frac{\\textrm{d}y}{\\textrm{d}t} = 
-        r y \\left( 1 - \\frac{y + \\alpha_{yx} x}{K} \\right)")  
+        r_y y \\left( 1 - \\frac{y + \\alpha_{yx} x}{K} \\right)")  
 
 Now we have two populations,
 ![x](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;x
@@ -146,9 +146,154 @@ carrying capacity
 y}{K}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7Bx%20%2B%20%5Calpha_%7Bxy%7D%20y%7D%7BK%7D
 "\\frac{x + \\alpha_{xy} y}{K}") (we’ll talk more about the
 ![\\alpha](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha
-"\\alpha") in a second).
+"\\alpha") in a second). The second equation mirrors the first, and this
+describes the population of the invasive mink
+(![y](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;y
+"y")). The equations are broadly the same because the two mink
+populations behave according to the same fundamental set of mechanisms.
+Here, we’re assuming that the carrying capacity for the mink is the
+same, since they are occupying the same niche.
 
-## Extending the model TODO
+The two constants that are different between the equations are
+![r\_x](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;r_x
+"r_x") and
+![r\_y](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;r_y
+"r_y"), and
+![\\alpha\_{xy}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha_%7Bxy%7D
+"\\alpha_{xy}") and
+![\\alpha\_{yx}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha_%7Byx%7D
+"\\alpha_{yx}"). We have two different intrinsic growth rates since the
+average litter size of the American mink is slightly smaller (four kits
+instead of five) \[3\]. The
+![\\alpha](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha
+"\\alpha")s are called *competition coefficients*, and they capture the
+impact that each species has on the other. Domestic American mink are
+slightly larger than the wild mink, and it has been suggested that this
+larger size has contributed to the [competitive
+exclusion](https://en.wikipedia.org/wiki/Competitive_exclusion_principle)
+of the native European mink \[4\]. To capture this, let’s assume that
+the impact on a European mink from competing with an invasive American
+mink is *twice as large* as competing with another European mink – in
+this case we set ![\\alpha\_{xy}
+= 2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha_%7Bxy%7D%20%3D%202
+"\\alpha_{xy} = 2"). We going to assume that for the American mink,
+competition with a European mink has the same impact as competition with
+a member of its own species, and in this case we set ![\\alpha\_{yx}
+= 1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha_%7Byx%7D%20%3D%201
+"\\alpha_{yx} = 1").
+
+Let’s write this model.
+
+``` r
+lv_competition <- function(X) {
+        # Define the parameters.
+        K <- 1000
+        rx <- 2.5
+        ry <- 2     # Smaller litters for the invader
+        a_xy <- 2   # Competitive impact on the natives
+        a_yx <- 1   # Competitive impact on the invaders
+        # Read the current population values
+        x <- X[1]
+        y <- X[2]
+        # Calculate the equation results.
+        res_x <- rx * x * (1 - (x + a_xy * y) / K)
+        res_y <- ry * y * (1 - (y + a_yx * x) / K)
+        return(c(res_x, res_y))
+}
+```
+
+``` r
+res <- run_simulation(
+        lv_competition,   # Use our model.
+        X = c(1000, 10),  # Start with 10 invaders, and the natives at carrying capacity.
+        N = 100           # Run it for 100 generations (ie. years).
+)
+```
+
+``` r
+# Plot our results.
+plot(
+        res[, 1], res[, 2],  # Natives
+        type = "l",    # For a line graph
+        col = "red",
+        xlab = "Number of generations",
+        ylab = "Number of mink",
+        main = "Competition between European and American mink",
+        ylim = c(0, 1000)    # Plot the full y-axis
+)
+lines(res[, 1], res[, 3], col = "blue")  # Invaders
+legend(
+        "topright",
+        legend = c("European mink", "American mink"),
+        fill = c("red", "blue")
+)
+```
+
+![](mink-invasion_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+Wow\! The American mink starts off slowly, but around generation 45 its
+growth explodes, and it drives the European mink to extinction within
+only a few years. There’s a few things we can think about here.
+
+Firstly – except for the reproductive rates – we’ve guesstimated the
+values that go into this model
+(![K](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;K
+"K") and the
+![\\alpha](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha
+"\\alpha")s). If we had data on field surveys of these species, or
+laboratory experiments on how they compete, we could derive values for
+these constants using statistical methods. For the predictions we make
+from this model to be meaningful, we need this data\! However, this
+doesn’t mean our toy model is useless. We can use it to investigate the
+impacts that changing certain values has on the shape of the curves that
+we draw. We can see some of these questions in the exercises below.
+
+You might have noticed that for the early stages of the invasion, the
+population of the invasive is very low. Let’s see how low:
+
+``` r
+summary(res[
+        res[, 1] < 20,   # Look at population within the first 20 years
+        3                # For the invasive
+])
+```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##    9.96   10.88   12.17   12.40   13.78   15.89
+
+Looks like for 20 years the population doesn’t even reach 16
+individuals\! At this stage there are just too many native mink taking
+up space and resources for the invasives to grow rapidly. At this point,
+nearly half of all the offspring of the invader die before they mature.
+You might have noticed here that our model assumes that there are no
+fluctuations in the population – but we know this is not realistic. If
+we imagine that there is a severe drought in year 10, it is very likely
+that the small invasive population will be eliminated, whereas the
+native population is large enough that it can survive (even with many
+deaths). This is also informative for planning control measures – if we
+can recapture 15 wild American mink within 20 years, we can remove the
+threat of extinction altogether\!
+
+Finally, this model allows us to incorporate competition, but it is not
+explicit about the *mechanisms* by which this competition operates. Do
+the American mink have a negative impact on the European mink because
+they competing for prey? Or for burrows? Or for territory? Perhaps there
+is hybridisation? Or predation? Each of these mechanisms might have very
+different responses to control measures, so it can be very important
+that our models have some more detail about how these mechanisms
+interact. In the final section we’ll look at this some more.
+
+**Excercise:** Try adjusting the value we’ve given to the competition
+coefficient for the native European mink. Is there a value of the
+competition coefficient that allows these species to coexist? How does
+adjusting the coefficient change the time to extinction?
+
+**Exercise:** Imagine that through a capture-neuter-release program we
+are able to reduce the average litter size of the invasive American mink
+from four to three kits per litter. Does this prevent extinction of the
+European mink?
+
+### Extending the Lotka-Volterra model
 
 As well as the two mink, other species with similar ranges include the
 [red fox](https://en.wikipedia.org/wiki/Red_fox) and [European
@@ -157,11 +302,14 @@ similar size and some overlap in food sources, these species have
 importantly different [ecological
 niches](https://en.wikipedia.org/wiki/Ecological_niche) to the mink,
 with both being omnivorous and terrestrial. It is possible to include
-these species in the model, and also to adjust it to take account of the
-difference in diet and behaviour which would mean that they interact
-less with the species of interest (**TODO:** incorporate this?).
+these species in the model, and also to adjust the competition
+coefficients to take account of the difference in diet and behaviour
+which would mean that they interact less with the species of interest.
+However, the model with these additions functions similarly, at the cost
+of being more complicated, so we won’t bother going into it here. If
+you’re interested in how we would go about doing this, ask me.
 
-## Escapes from farms TODO
+## Escapes from farms
 
 The reason that the American mink was introduced to Europe is in order
 to [farm it for fur](https://en.wikipedia.org/wiki/Fur_farming), and and
@@ -207,6 +355,12 @@ p\_i](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&spa
         \\left( c_i p_i + h_i \\right) \\left( 1 - \\sum_{j = 1}^{i} p_j \\right) -
         \\left( m_i + \\sum_{j = 1}^{i-1} c_j p_j + h_j \\right) p_i")  
 
-1.  Other modellers: I’m going to use simulation models of all these
-    here (even when analytic solutions exist) since I think it makes it
-    clearer to less mathsy people what’s going on.
+1.  <https://en.wikipedia.org/wiki/European_mink#Reproduction_and_development>
+
+2.  Other modellers: I’m going to use simulation models of all these
+    examples (even when analytic solutions exist) since I think it makes
+    it clearer to less mathsy people what’s going on.
+
+3.  <https://en.wikipedia.org/wiki/American_mink#Reproduction_and_development>
+
+4.  <https://en.wikipedia.org/wiki/American_mink#Decline_of_wild_mink>
