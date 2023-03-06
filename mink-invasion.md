@@ -119,12 +119,16 @@ called the [Lotka-Volterra competition
 model](https://en.wikipedia.org/wiki/Competitive_Lotka%E2%80%93Volterra_equations):
 
   
-![\\frac{\\textrm{d}x}{\\textrm{d}t} = 
+![
+\\\\
+\\frac{\\textrm{d}x}{\\textrm{d}t} = 
 r x \\left( 1 - \\frac{x + \\alpha\_{xy} y}{K} \\right) \\\\
 \\frac{\\textrm{d}y}{\\textrm{d}t} = 
 r y \\left( 1 - \\frac{y + \\alpha\_{yx} x}{K}
-\\right)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cfrac%7B%5Ctextrm%7Bd%7Dx%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20r%20x%20%5Cleft%28%201%20-%20%5Cfrac%7Bx%20%2B%20%5Calpha_%7Bxy%7D%20y%7D%7BK%7D%20%5Cright%29%20%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dy%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20r%20y%20%5Cleft%28%201%20-%20%5Cfrac%7By%20%2B%20%5Calpha_%7Byx%7D%20x%7D%7BK%7D%20%5Cright%29
-"\\frac{\\textrm{d}x}{\\textrm{d}t} = 
+\\right)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%0A%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dx%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20r%20x%20%5Cleft%28%201%20-%20%5Cfrac%7Bx%20%2B%20%5Calpha_%7Bxy%7D%20y%7D%7BK%7D%20%5Cright%29%20%5C%5C%0A%5Cfrac%7B%5Ctextrm%7Bd%7Dy%7D%7B%5Ctextrm%7Bd%7Dt%7D%20%3D%20%0A%20%20%20%20%20%20%20%20r%20y%20%5Cleft%28%201%20-%20%5Cfrac%7By%20%2B%20%5Calpha_%7Byx%7D%20x%7D%7BK%7D%20%5Cright%29
+"
+\\\\
+\\frac{\\textrm{d}x}{\\textrm{d}t} = 
         r x \\left( 1 - \\frac{x + \\alpha_{xy} y}{K} \\right) \\\\
 \\frac{\\textrm{d}y}{\\textrm{d}t} = 
         r y \\left( 1 - \\frac{y + \\alpha_{yx} x}{K} \\right)")  
