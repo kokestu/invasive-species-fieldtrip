@@ -83,7 +83,7 @@ logistic <- function(X) {
 res <- run_simulation(
         logistic,   # Use our model.
         X = 10,     # Start with 10 individuals.
-        N = 10      # Run it for 20 generations (ie. years).
+        N = 10      # Run it for 20 time steps
 )
 ```
 
@@ -92,7 +92,7 @@ res <- run_simulation(
 plot(
         res[, 1], res[, 2],
         type = "l",    # For a line graph
-        xlab = "Number of generations",
+        xlab = "Time",
         ylab = "Number of mink",
         main = "Growth of a mink population"
 )
@@ -102,8 +102,8 @@ plot(
 
 We can see that the population initially grows very quickly, before
 levelling out at the carrying capacity. If we look closely, we can see
-that it only took four generations to get to 1,000 individuals\! The
-power of [exponential
+that it only took four timesteps to get to 1,000 individuals\! The power
+of [exponential
 growth](https://en.wikipedia.org/wiki/Exponential_growth#Biology).
 
 **Exercise:** If the average litter size is reduced to three kits –
@@ -206,7 +206,7 @@ lv_competition <- function(X) {
 res <- run_simulation(
         lv_competition,   # Use our model.
         X = c(1000, 10),  # Start with 10 invaders, and the natives at carrying capacity.
-        N = 100           # Run it for 100 generations (ie. years).
+        N = 100           # Run it for 100 timesteps
 )
 ```
 
@@ -216,7 +216,7 @@ plot(
         res[, 1], res[, 2],  # Natives
         type = "l",    # For a line graph
         col = "red",
-        xlab = "Number of generations",
+        xlab = "Time",
         ylab = "Number of mink",
         main = "Competition between European and American mink",
         ylim = c(0, 1000)    # Plot the full y-axis
@@ -231,9 +231,9 @@ legend(
 
 ![](mink-invasion_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-Wow\! The American mink starts off slowly, but around generation 45 its
+Wow\! The American mink starts off slowly, but around timestep 45 its
 growth explodes, and it drives the European mink to extinction within
-only a few years. There’s a few things we can think about here.
+only a brief time. There’s a few things we can think about here.
 
 Firstly – except for the reproductive rates – we’ve guesstimated the
 values that go into this model
@@ -253,7 +253,7 @@ population of the invasive is very low. Let’s see how low:
 
 ``` r
 summary(res[
-        res[, 1] < 20,   # Look at population within the first 20 years
+        res[, 1] < 20,   # Look at population within the first 20 timesteps
         3                # For the invasive
 ])
 ```
@@ -261,18 +261,18 @@ summary(res[
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
     ##    9.96   10.88   12.17   12.40   13.78   15.89
 
-Looks like for 20 years the population doesn’t even reach 16
+Looks like for 20 timesteps the population doesn’t even reach 16
 individuals\! At this stage there are just too many native mink taking
 up space and resources for the invasives to grow rapidly. At this point,
 nearly half of all the offspring of the invader die before they mature.
 You might have noticed here that our model assumes that there are no
 fluctuations in the population – but we know this is not realistic. If
-we imagine that there is a severe drought in year 10, it is very likely
-that the small invasive population will be eliminated, whereas the
-native population is large enough that it can survive (even with many
-deaths). This is also informative for planning control measures – if we
-can recapture 15 wild American mink within 20 years, we can remove the
-threat of extinction altogether\!
+we imagine that there is a severe drought in timestep 10, it is very
+likely that the small invasive population will be eliminated, whereas
+the native population is large enough that it can survive (even with
+many deaths). This is also informative for planning control measures –
+if we can recapture 15 wild American mink within this time, we can
+remove the threat of extinction altogether\!
 
 Finally, this model allows us to incorporate competition, but it is not
 explicit about the *mechanisms* by which this competition operates. Do
@@ -423,7 +423,7 @@ catford <- function(
 res <- run_simulation(
         catford,          # Use our model.
         X = c(100, 10),   # Start with 10 invaders, and the natives at carrying capacity.
-        N = 20            # Run it for 20 generations (ie. years).
+        N = 20            # Run it for 20 timesteps
 )
 ```
 
@@ -433,7 +433,7 @@ plot(
         res[, 1], res[, 2],  # Natives
         type = "l",    # For a line graph
         col = "red",
-        xlab = "Number of generations",
+        xlab = "Time",
         ylab = "Number of mink",
         main = "Competition between European and American mink",
         ylim = c(0, 100)    # Plot the full y-axis
@@ -449,13 +449,13 @@ legend(
 ![](mink-invasion_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 Wow, so in this model, we get extinction of the native almost
-immediately (after only a couple of years). Now, let’s think about our
-breed-and-release program – how many European mink would we need to
-breed and release every year to have a viable population of the native?
+immediately. Now, let’s think about our breed-and-release program – how
+many European mink would we need to breed and release every timestep to
+have a viable population of the native?
 
 ``` r
 # Let's run a simulation for values of hx ranging from 1 to 1000, and see
-# how many European mink-occupied habitats we have after 50 years.
+# how many European mink-occupied habitats we have after some time.
 hx <- 1:1000
 res <- rep(NA, length(hx))    # create a vector to hold the results
 for (i in seq_along(hx)) {
@@ -463,7 +463,7 @@ for (i in seq_along(hx)) {
                 # Use our model with the new value of h
                 function(X) catford(X, hx = hx[i]),
                 X = c(100, 10),   # Start with 10 invaders, and the natives at carrying capacity.
-                N = 50            # Run it for 50 generations (ie. years).
+                N = 50            # Run it for 50 timesteps.
         )
         # Store the last value of the native population.
         res[i] <- floor(sim_res[nrow(sim_res), 2])
@@ -474,7 +474,7 @@ for (i in seq_along(hx)) {
 # Let's plot the results.
 plot(
         hx, res,
-        xlab = "Size of annual release",
+        xlab = "Size of regular release",
         ylab = "Stable native population size",
         main = "Release to maintain a population of the native",
 )
@@ -483,7 +483,7 @@ plot(
 ![](mink-invasion_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 Looking at this, we can see that even when we breed and release hundreds
-of native mink a year, we are unable to maintain a number of occupied
+of native mink regularly, we are unable to maintain a number of occupied
 patches more than 10. If there are also American mink escaping from fur
 farms (i.e. if ![h\_y
 \> 0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;h_y%20%3E%200
