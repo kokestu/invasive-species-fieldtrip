@@ -54,9 +54,14 @@ support 1,000 individuals for now.
 rate*](https://en.wikipedia.org/wiki/Population_dynamics#Intrinsic_rate_of_increase),
 we can get the value for this from the litter size of the mink. The
 European mink has an average litter size of five kits \[1\], so the
-per-capita rate of increase is
+per-capita rate of increase
+![\\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda
+"\\lambda") is
 ![2.5](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;2.5
-"2.5") (since only females bear offspring). The term ![1 -
+"2.5") (since only females bear offspring). The intrinsic rate growth
+rate ![r =
+ln(\\lambda)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;r%20%3D%20ln%28%5Clambda%29
+"r = ln(\\lambda)"). The term ![1 -
 \\frac{x}{K}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;1%20-%20%5Cfrac%7Bx%7D%7BK%7D
 "1 - \\frac{x}{K}") decreases as
 ![x](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;x
@@ -72,7 +77,7 @@ Let’s model this\[2\].
 logistic <- function(X) {
         # Define the parameters.
         K <- 1000
-        r <- 2.5
+        r <- log(2.5)
         # Calculate the result from the model.
         res <- r * X * (1 - X / K)
         return(res)
@@ -83,7 +88,7 @@ logistic <- function(X) {
 res <- run_simulation(
         logistic,   # Use our model.
         X = 10,     # Start with 10 individuals.
-        N = 10      # Run it for 20 time steps
+        N = 20      # Run it for 20 time steps
 )
 ```
 
@@ -102,8 +107,8 @@ plot(
 
 We can see that the population initially grows very quickly, before
 levelling out at the carrying capacity. If we look closely, we can see
-that it only took four timesteps to get to 1,000 individuals\! The power
-of [exponential
+that it takes only about 10 timesteps to get to 1,000 individuals\! The
+power of [exponential
 growth](https://en.wikipedia.org/wiki/Exponential_growth#Biology).
 
 **Exercise:** If the average litter size is reduced to three kits –
@@ -188,10 +193,10 @@ Let’s write this model.
 lv_competition <- function(X) {
         # Define the parameters.
         K <- 1000
-        rx <- 2.5
-        ry <- 2     # Smaller litters for the invader
-        a_xy <- 2   # Competitive impact on the natives
-        a_yx <- 1   # Competitive impact on the invaders
+        rx <- log(2.5)
+        ry <- log(2)    # Smaller litters for the invader
+        a_xy <- 2       # Competitive impact on the natives
+        a_yx <- 1       # Competitive impact on the invaders
         # Read the current population values
         x <- X[1]
         y <- X[2]
@@ -206,7 +211,7 @@ lv_competition <- function(X) {
 res <- run_simulation(
         lv_competition,   # Use our model.
         X = c(1000, 10),  # Start with 10 invaders, and the natives at carrying capacity.
-        N = 100           # Run it for 100 timesteps
+        N = 300           # Run it for 400 timesteps
 )
 ```
 
@@ -231,7 +236,7 @@ legend(
 
 ![](mink-invasion_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-Wow\! The American mink starts off slowly, but around timestep 45 its
+Wow\! The American mink starts off slowly, but around timestep 150 its
 growth explodes, and it drives the European mink to extinction within
 only a brief time. There’s a few things we can think about here.
 
@@ -259,9 +264,9 @@ summary(res[
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##    9.96   10.88   12.17   12.40   13.78   15.89
+    ##   9.972  10.193  10.555  10.581  10.944  11.363
 
-Looks like for 20 timesteps the population doesn’t even reach 16
+Looks like for 20 timesteps the population doesn’t even reach 12
 individuals\! At this stage there are just too many native mink taking
 up space and resources for the invasives to grow rapidly. At this point,
 nearly half of all the offspring of the invader die before they mature.
@@ -407,8 +412,8 @@ catford <- function(
 ) {
         # Define the parameters.
         K <- 100    # Number of habitat patches
-        rx <- 2.5
-        ry <- 2     # Smaller litters for the invader
+        rx <- log(2.5)
+        ry <- log(2)     # Smaller litters for the invader
         # Read the current population values
         x <- X[1]
         y <- X[2]
@@ -483,7 +488,7 @@ plot(
 ![](mink-invasion_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 Looking at this, we can see that even when we breed and release hundreds
-of native mink regularly, we are unable to maintain a number of occupied
+of native mink regularly, we struggle to maintain a number of occupied
 patches more than 10. If there are also American mink escaping from fur
 farms (i.e. if ![h\_y
 \> 0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;h_y%20%3E%200
